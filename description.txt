@@ -1,0 +1,274 @@
+The purpose of this exercise is to gain experience with
+class design and implementaion issues.
+
+Develop a linked list class.
+Your class design must support full encapsulation techniques.
+
+Name your class LinkedList.
+
+You must implement a singly linked list only, and not a
+doubly linked list.
+
+Specify LinkedList  in linkedlist.cpp and linkedlist.h.
+
+In order to simplify testing your LinkedList class,
+you must create 3 separate test driver programs.
+
+You must use my 3 main() function blocks below,
+exactly, and unmodified. name them, as below,
+main1.cpp, main2.cpp, main3.cpp.
+
+You must name your three executable programs the same as mine below.
+
+All three versions add (link in) all the stings
+in argv[], either in append or prepend mode.
+
+Your output must match mine exactly.
+
+Your LinkedList class must fully provide the following API,
+as exercised/tested by my  main() function bodies:
+
+REQUIRED API
+
+DATA TYPES AND CONSTANTS:
+
+    enum    mode    { NORMAL = 0,DEBUG = 1 };
+    typedef char    *value_type;
+
+MEMBER FUNCTIONS:
+
+    // Ctors/Dtor
+    LinkedList():          Default Ctor (NORMAL mode)
+    LinkedList(mode):      NORMAL or DEBUG mode
+    ~LinkedList():         Dtor
+
+    void   push_back(value_type):
+		Append string to list
+    void   push_front(value_type):
+		Prepend string to list
+    size_t size()  const:
+		Return current size (number of linked nodes)
+    void   print() const:
+		Print list, forward from first to last node
+
+By carefully tracing/examining my example run section below,
+as produced by my main() function bodies, you can
+unambiguously determine the precise semantics of
+each API function.
+
+The typedef value_type must be used in linkedlist.cpp
+and linkedlis.h for any form of node/date type references.
+
+You must not specify char * in this case.
+This is consistent with how the C++ STL is designed.
+
+IMPORTANT POINTS:
+
+1) You may only define one top-level class, named LinkedList.
+   Any supporting classes/struct must be declared as nested classes.
+   HINT:
+     I declared an inner class, named struct Node, to represent
+     each node on the list.
+     
+     Since this is a support class for LinkedList, I left all
+     members, functions and data, public, as is appropriate.
+
+2) You must allocate (new) memory for each node, AND the memory to
+   store each string. The only valid solution  allocates
+   memory for both entities per node.
+
+3) In DEBUG mode, you must output trace statements, as I did below,
+   showning each:
+	- Node allocation
+	- String memory allocation
+	- Node deallocation
+	- String memory deallocation
+   HINT:
+     I allocate each node's memory in LinkedList, and each string's
+     memory in struct Node.
+
+4) Since it's a singly linked list, you must somehow traverse the
+   list, deallocating (via delete) each node, and string memory.
+   HINT:
+     I used a private member function in LinkedList, which
+     recursively deallocates each node, as triggered from
+     ~LinkedList().
+
+     You may use some type of stack if you wish to, althought
+     in this case, recursion is actually easier/less work.
+
+5) Your debug trace statements must match mine exactly in form.
+   Note that the order of your trace statements may differ from mine,
+   depending on how you specify your deallocate logic.
+   The important point is:
+     For N CLAs, you MUST show:
+     N allocations and deallocations of node and string memory,
+     for a total of 4 * N trace statements.
+   No other soltion is valid.
+
+EXAMPLE/REQUIRED main() function bodies:
+
+ll1:
+
+int
+main(int argc,char **argv)
+{
+    LinkedList  llist;
+
+    for(int i = 0; i < argc; i++) 
+        llist.push_front(argv[i]);
+
+    cout << "size() = " << llist.size() << endl;
+    cout << "Printing list from head to tail: " << endl;
+    llist.print();
+
+    return 0;
+}
+
+ll2:
+
+int
+main(int argc,char **argv)
+{
+    LinkedList  llist;
+
+    for(int i = 0; i < argc; i++) 
+        llist.push_back(argv[i]);
+
+    cout << "size() = " << llist.size() << endl;
+    cout << "Printing list from head to tail: " << endl;
+    llist.print();
+
+    return 0;
+}
+
+ll3:
+
+int
+main(int argc,char **argv)
+{
+    LinkedList  llist(LinkedList::DEBUG);
+
+    for(int i = 0; i < argc; i++) 
+        llist.push_back(argv[i]);
+
+    cout << "size() = " << llist.size() << endl;
+    cout << "Printing list from head to tail: " << endl;
+    llist.print();
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EXAMPLE RUN
+
+
+   	Script started on Sun Oct 21 19:38:10 2001
+   	ipx3% ls
+   	linkedlist.cpp linkedlist.h main1.cpp main2.cpp   main3.cpp
+   	ipx3% CC -o ll1 main1.cpp linkedlist.cpp
+   	main1.cpp:
+   	linkedlist.cpp:
+   	ipx3% ll1 a test of hw five
+   	size() = 6
+   	Printing list from head to tail: 
+   	 five
+   	 hw
+   	 of
+   	 test
+   	 a
+   	 ll1
+   	ipx3% CC -o ll2 main2.cpp linkedlist.cpp
+   	main2.cpp:
+   	linkedlist.cpp:
+   	ipx3% ll2 a test of hw five
+   	size() = 6
+   	Printing list from head to tail: 
+   	 ll2
+   	 a
+   	 test
+   	 of
+   	 hw
+   	 five
+   	ipx3% CC -o ll3 main3.cpp linkedlist.cpp
+   	main3.cpp:
+   	linkedlist.cpp:
+   	ipx3% ll3 a test of hw five
+   	LinkedList allocating node: ll3
+   	Node: allocating: ll3
+   	LinkedList allocating node: a
+   	Node: allocating: a
+   	LinkedList allocating node: test
+   	Node: allocating: test
+   	LinkedList allocating node: of
+   	Node: allocating: of
+   	LinkedList allocating node: hw
+   	Node: allocating: hw
+   	LinkedList allocating node: five
+   	Node: allocating: five
+   	size() = 6
+   	Printing list from head to tail: 
+   	 ll3
+   	 a
+   	 test
+   	 of
+   	 hw
+   	 five
+   	LinkedList deallocating node: five
+   	Node: deallocating: five
+   	LinkedList deallocating node: hw
+   	Node: deallocating: hw
+   	LinkedList deallocating node: of
+   	Node: deallocating: of
+   	LinkedList deallocating node: test
+   	Node: deallocating: test
+   	LinkedList deallocating node: a
+   	Node: deallocating: a
+   	LinkedList deallocating node: ll3
+   	Node: deallocating: ll3
+   	ipx3% exit
+   	ipx3% 
+   	script done on Sun Oct 21 19:42:44 2001
+
